@@ -1,37 +1,33 @@
 
 #include <string>
 #include <iostream>
+#include <array>
+
 #include "player.hpp"
 using namespace std;
 using namespace ariel;
 
-    //constructors and destructors
+    //constructor:
     Player::Player(string name)
     {
         this-> name = name;
         currentStackSize = 0;       
         cardsWon = 0;     
     }
-   
-    Player::~Player(){
-        // for (int i = 0; i < 26; i++)
-        // {
-        //     delete cardDeck[i];
-        // }
-        
-    }
+    
+    //destructors:
+    //default destructor
 
     //implementing functions
-    void Player::setCardDeckAt(Card *c,int ind) //setting cards in the deck
+    void Player::setCardDeckAt(Card &c,int ind) //setting cards in the deck
     {
-        this->cardDeck[ind] = c;
+        this->playerDeck[static_cast<std::array<Card, PLAYER_DECKSIZE>::size_type>(ind)] = c;
         this->currentStackSize++;
         // cout << name << " currentStackSize " << currentStackSize << endl;
     }
     Card Player::getCardDeckAt(int ind)
     {
-        Card &cr = *(cardDeck[ind]);
-        return cr;
+        return (playerDeck[static_cast<std::array<Card, PLAYER_DECKSIZE>::size_type>(ind)]);
     } 
     string Player::getName(){return this->name;}
     void Player::setStackSize(int size)

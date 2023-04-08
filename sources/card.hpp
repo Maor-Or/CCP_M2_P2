@@ -17,8 +17,8 @@ namespace ariel
         public:
         //constructors and destructors
         Card(int number,int type);
-        //Card(const Card &c);        //copy constructor
-        ~Card();
+        Card();
+        //~Card();
 
         //getter functions for the object's attributes
         int getNumber();

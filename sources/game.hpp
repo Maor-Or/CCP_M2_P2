@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <iostream>
 #include "player.hpp"
 
@@ -9,10 +10,20 @@ using namespace std;
 namespace ariel{
     class Game
     {
+        //private:
+
         static constexpr int DECKSIZE = 52;
 
         Player &player1, &player2;
-        Card *gameDeck[DECKSIZE];
+        array<Card,DECKSIZE> gameDeck;
+        string lastTurnLine;            //log for each turn
+        string allGameLog;              //log for the entire game
+        
+        //for following stats:
+        int amountOfDraws;              
+        int turnsPlayed;                
+        int p1AmountOfWins;             
+        int p2AmountOfWins;
 
         public:
 
@@ -20,11 +31,11 @@ namespace ariel{
             Game(Player &player1,Player &player2);
             
             //destructors:
-            ~Game();
+            //default destructor
 
             //my added functions:
-            void setPlayersDecks();     //the game distributes it's card to the players when a new game starts
-            void roundWinner(int winnerNum);    //when one of the players wins a round, some actions are needed
+            void setPlayersDecks();                      //the game distributes it's card to the players when a new game starts
+            void roundWinner(int winnerNum);             //when one of the players wins a round, some actions are needed
             int checkPlayersCards(int num1, int num2);
             string printRoundCardReveal();    
 

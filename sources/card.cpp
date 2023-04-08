@@ -58,45 +58,17 @@ Card::Card(int number,int type) // 1 = Spades 2 = Hearts 3 = Diamonds 4 = Club
 
 }
 
-// Card::Card(const Card &c)       //copy constructor
-// {
-//     this->number = c.number; //getting the card's number
-    
-//     //checking for a special card
-//     switch (number)
-//     {
-//     case 11:
-//         this->isSpecialType = true;
-//         this->specialTypeName = "Jack";
-//         break;
-//     case 12:
-//         this->isSpecialType = true;
-//         this->specialTypeName = "Queen";
-//         break;
-//     case 13:
-//         this->isSpecialType = true;
-//         this->specialTypeName = "King";
-//         break;
-//     case 14:
-//         this->isSpecialType = true;
-//         this->specialTypeName = "Ace";
-//         break;
-//     default:
-//         this->isSpecialType = false;
-//         this->specialTypeName = "";
-//         break;
-//     }
-    
-//     //defining the card's type
-//     this->type = c.type;
-// }
+Card::Card()
+{
+
+}
 
 //implementing destructors    
-Card::~Card()
-{
-    // delete specialTypeName;
-    // delete type;
-}
+// Card::~Card()
+// {
+//     // delete specialTypeName;
+//     // delete type;
+// }
 
 //implementing functions
 int Card::getNumber(){ return this->number;}
