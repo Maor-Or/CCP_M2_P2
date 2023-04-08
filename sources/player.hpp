@@ -1,9 +1,10 @@
 #pragma once
 
-#include "card.hpp"
 #include <string>
 #include <iostream>
 #include <array>
+
+#include "card.hpp"
 
 using namespace std;
 
@@ -14,9 +15,9 @@ namespace ariel
     //private:
         static constexpr int PLAYER_DECKSIZE = 26;
         
-        string name;          // player's name
-        int currentStackSize; // the amount of cards left in the deck
-        int cardsWon;         // the amount of cards won (starts on 0 for each new game)
+        string name;                             // player's name
+        int currentStackSize;                    // the amount of cards left in the deck
+        int cardsWon;                            // the amount of cards won (starts on 0 for each new game)
         array<Card, PLAYER_DECKSIZE> playerDeck; // the player's card deck
 
     public:

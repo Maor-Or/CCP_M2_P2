@@ -1,8 +1,6 @@
 
 #include <iostream>
 #include <random>
-#include <cstdlib>
-#include <ctime>
 #include <stdexcept>
 #include <string>
 #include <array>
@@ -17,6 +15,8 @@ using namespace ariel;
 // constructors:
 Game::Game(Player &player1, Player &player2) : player1(player1), player2(player2)
 {
+    //initializing attributes:
+    lastTurnLine = "";
     allGameLog = "";
     amountOfDraws = 0;
     turnsPlayed = 0;
@@ -37,7 +37,7 @@ Game::Game(Player &player1, Player &player2) : player1(player1), player2(player2
 void Game::setPlayersDecks()
 {
 
-    // making a new card deck and filling it with cards
+    // filling the game's deck with cards
     for (int j = 0; j < 4; j++)
     {
         for (int i = 0; i < 13; i++)
@@ -47,27 +47,8 @@ void Game::setPlayersDecks()
     }
 
     // shuffling the card deck:
-
-    // TODO: delete the old array code:
-    //  int secondCard, deckStart = 0, deckEnd = 51;
-    //  Card *tmp = NULL;
-    //  srand(time(NULL));
-    //  int random_number = 0; // Initialize the random seed
-
-    // // repositioning all cards:
-    // for (int firstCard = deckStart; firstCard <= deckEnd; firstCard++)
-    // {
-    //     random_number = rand() % 52; // Generate a random number between 0 and 51
-    //     secondCard = random_number;
-
-    //     // swapping cards:
-    //     tmp = gameDeck[firstCard];
-    //     gameDeck[firstCard] = gameDeck[secondCard];
-    //     gameDeck[secondCard] = tmp;
-    // }
-
-    std::random_device rd;  // seed for the random number generator
-    std::mt19937 gen(rd()); // mersenne twister engine for random numbers
+    std::random_device rd;      // seed for the random number generator
+    std::mt19937 gen(rd());     // for random numbers
     std::shuffle(gameDeck.begin(), gameDeck.end(), gen);
 
     // handing out the shuffled cards:
@@ -84,39 +65,39 @@ void Game::roundWinner(int winnerNum)
 {
     if (winnerNum == 1) // player1 won the round
     {
-        lastTurnLine = lastTurnLine + " " + player1.getName() + " wins.";
+        lastTurnLine = lastTurnLine + player1.getName() + " wins.";
         player1.incCardsWon(2);
         cout << player1.getName() << " wins." << endl;
     }
     else if (winnerNum == 2) // player2 won the round
     {
-        lastTurnLine = lastTurnLine + " " + player2.getName() + " wins.";
+        lastTurnLine = lastTurnLine + player2.getName() + " wins.";
         player2.incCardsWon(2);
         cout << player2.getName() << " wins." << endl;
     }
 }
 int Game::checkPlayersCards(int num1, int num2) // 0 - tie, 1 - player1 wins, 2 - player2 wins
 {
-    if (num1 == 2 && num2 == 14) // 2 (player1) wins over ace (player2)
+    if (num1 == 2 && num2 == 14)      // 2 (player1) wins over ace (player2)
         return 1;
     else if (num2 == 2 && num1 == 14) // 2 (player2) wins over ace (player1)
         return 2;
-    else if (num1 == num2) // tie
+    else if (num1 == num2)            // tie
         return 0;
-    else if (num1 > num2) // player1 wins
+    else if (num1 > num2)             // player1 wins
         return 1;
     else // num2 > num1               // player2 wins
         return 2;
 }
 string Game::printRoundCardReveal()
 {
-    // printing the round cards reveal
+    // printing and returning (to save in the logs) the round cards reveal
     string res = player1.getName() + " played " + player1.getCardDeckAt(player1.stacksize() - 1).toString() + " " + player2.getName() + " played " + player2.getCardDeckAt(player2.stacksize() - 1).toString() + ". ";
     cout << res;
     return res;
 }
 
-// functions to implement:
+// assignment functions implemented:
 void Game::playTurn()
 {
     // covering extreme cases
@@ -125,13 +106,13 @@ void Game::playTurn()
     else if (player1.stacksize() == 0)
         throw std::runtime_error("Game is already over. Cannot play turn!\n");
 
-    // getting the card numbers and deciding of a round winner
+    // getting the card numbers and deciding of a round (turn) winner
     int player1Num = player1.getCardDeckAt(player1.stacksize() - 1).getNumber();
     int player2Num = player2.getCardDeckAt(player2.stacksize() - 1).getNumber();
 
     int res = checkPlayersCards(player1Num, player2Num);
 
-    lastTurnLine = printRoundCardReveal();
+    lastTurnLine = printRoundCardReveal(); //for the turn's log
 
     if (res == 1) // player1 won
     {
@@ -147,8 +128,9 @@ void Game::playTurn()
         player2.setStackSize(player2.stacksize() - 1); // setting up the next card
         p2AmountOfWins++;
     }
-    else // res == 0, tie
-    {
+    else // res == 0, tie. 
+    {    //will now repeat revealing cards until a winner is decided or not enough cards are left
+
         cout << "Draw. ";
         amountOfDraws += 1;
         lastTurnLine += "Draw. ";
@@ -157,7 +139,7 @@ void Game::playTurn()
         while (flag)
         {
             if (player1.stacksize() == 2) // the draw was on the one before last card for each player
-            {
+            {                             // not enough cards and so the pile is split between the two players
                 player1.setStackSize(0);
                 player1.incCardsWon(2 + (drawPile / 2));
                 player2.setStackSize(0);
@@ -165,7 +147,7 @@ void Game::playTurn()
                 flag = false;
             }
             else if (player1.stacksize() == 1) // the draw was on the last card for each player
-            {
+            {                                  // not enough cards and so the pile is split between the two players
                 player1.setStackSize(0);
                 player1.incCardsWon(1 + (drawPile / 2));
                 player2.setStackSize(0);
@@ -186,16 +168,16 @@ void Game::playTurn()
                     player1.incCardsWon(2 + (drawPile));
                     cout << player1.getName() << " wins." << endl;
                     lastTurnLine += player1.getName() + " wins.";
-                    flag = false;
                     p1AmountOfWins++;
+                    flag = false;
                 }
                 else if (checkPlayersCards(player1Num, player2Num) == 2) // player2 won
                 {
                     player2.incCardsWon(2 + (drawPile));
                     cout << player2.getName() << " wins." << endl;
                     lastTurnLine += player2.getName() + " wins.";
-                    flag = false;
                     p2AmountOfWins++;
+                    flag = false;
                 }
                 else // tie
                 {
@@ -225,9 +207,9 @@ void Game::printLastTurn()
 void Game::printWiner()
 {
     int res = player1.cardesTaken() - player2.cardesTaken();
-    if (res > 0)
+    if (res > 0)    //player1 has won more cards over the total amout of turns, and so they win the game
         cout << player1.getName() << " wins the game. " << endl;
-    else if (res < 0)
+    else if (res < 0)   //player2 has won more cards over the total amout of turns, and so they win the game
         cout << player2.getName() << " wins the game. " << endl;
     else // res == 0 meaning its a tie
         cout << "game is tied, no one wins. " << endl;

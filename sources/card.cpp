@@ -7,7 +7,7 @@
 using namespace ariel;
 using namespace std;
 
-//implementing constructors
+//constructors:
 Card::Card(int number,int type) // 1 = Spades 2 = Hearts 3 = Diamonds 4 = Club
 {
     this->number = number; //getting the card's number
@@ -57,27 +57,19 @@ Card::Card(int number,int type) // 1 = Spades 2 = Hearts 3 = Diamonds 4 = Club
     }
 
 }
+Card::Card(){}                  //empty constructor for array initilization
 
-Card::Card()
-{
+//destructors:    
+//default destructor
 
-}
-
-//implementing destructors    
-// Card::~Card()
-// {
-//     // delete specialTypeName;
-//     // delete type;
-// }
-
-//implementing functions
+//my added functions:
 int Card::getNumber(){ return this->number;}
 bool Card::getIsSpecialType(){return this->isSpecialType;}
 string Card::getSpecialTypeName(){return this->specialTypeName;}
 string Card::getType(){return this->type;}
-
-//my functions:
-string Card::toString(){
+string Card::toString()
+{
     return getIsSpecialType()?
     (getSpecialTypeName()+" of "+getType()):
-    (to_string(getNumber())+" of "+getType());}
+    (to_string(getNumber())+" of "+getType());
+}

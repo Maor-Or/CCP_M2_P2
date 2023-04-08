@@ -18,19 +18,15 @@ namespace ariel
         //constructors and destructors
         Card(int number,int type);
         Card();
-        //~Card();
 
+        //my added functions:
+        string toString();
         //getter functions for the object's attributes
         int getNumber();
         bool getIsSpecialType();
         string getSpecialTypeName();
         string getType();
 
-        //my functions:
-        string toString();
-
     };
     
-    
-    
-} // namespace ariel
+} 

@@ -18,14 +18,13 @@ using namespace ariel;
     //destructors:
     //default destructor
 
-    //implementing functions
-    void Player::setCardDeckAt(Card &c,int ind) //setting cards in the deck
+    //my added functions:
+    void Player::setCardDeckAt(Card &c,int ind) //adding a card to the player's deck
     {
         this->playerDeck[static_cast<std::array<Card, PLAYER_DECKSIZE>::size_type>(ind)] = c;
         this->currentStackSize++;
-        // cout << name << " currentStackSize " << currentStackSize << endl;
     }
-    Card Player::getCardDeckAt(int ind)
+    Card Player::getCardDeckAt(int ind) //getting the card in the ind position from the player's deck
     {
         return (playerDeck[static_cast<std::array<Card, PLAYER_DECKSIZE>::size_type>(ind)]);
     } 
@@ -33,7 +32,7 @@ using namespace ariel;
     void Player::setStackSize(int size)
     {
         currentStackSize = size;
-        if(currentStackSize< 0) currentStackSize = 0; 
+        if(currentStackSize < 0) currentStackSize = 0; //for avoiding out of bounds
     }
     void Player::incCardsWon(int amount){cardsWon+=amount;}
     void Player::resetCardsWon(){cardsWon = 0;}

@@ -14,8 +14,8 @@ namespace ariel{
 
         static constexpr int DECKSIZE = 52;
 
-        Player &player1, &player2;
-        array<Card,DECKSIZE> gameDeck;
+        Player &player1, &player2;      //game's players
+        array<Card,DECKSIZE> gameDeck;  //game's card deck
         string lastTurnLine;            //log for each turn
         string allGameLog;              //log for the entire game
         
@@ -36,8 +36,9 @@ namespace ariel{
             //my added functions:
             void setPlayersDecks();                      //the game distributes it's card to the players when a new game starts
             void roundWinner(int winnerNum);             //when one of the players wins a round, some actions are needed
-            int checkPlayersCards(int num1, int num2);
-            string printRoundCardReveal();    
+            int checkPlayersCards(int num1, int num2);   //checks which player has won a single instance of two cards clashing
+            string printRoundCardReveal();               //printing and returning (to save in the logs) the round cards reveal
+ 
 
             //functions to implement:
             void printLastTurn();
