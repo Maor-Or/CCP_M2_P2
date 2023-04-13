@@ -47,9 +47,9 @@ void Game::setPlayersDecks()
     }
 
     // shuffling the card deck:
-    std::random_device rd;      // seed for the random number generator
-    std::mt19937 gen(rd());     // for random numbers
-    std::shuffle(gameDeck.begin(), gameDeck.end(), gen);
+    std::random_device rd;                                  // seed for the random number generator
+    std::mt19937 gen(rd());                                 // for random numbers
+    std::shuffle(gameDeck.begin(), gameDeck.end(), gen);    //using std shuffle, https://en.cppreference.com/w/cpp/algorithm/random_shuffle
 
     // handing out the shuffled cards:
     for (int i = 0; i < 26; i++)
